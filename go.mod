@@ -24,6 +24,10 @@ replace github.com/openbao/openbao/api/auth/userpass/v2 => ./api/auth/userpass
 
 replace github.com/openbao/openbao/sdk/v2 => ./sdk
 
+replace github.com/openbao/go-kms-wrapping/v2 => ../go-kms-wrapping
+
+replace github.com/openbao/go-kms-wrapping/wrappers/pkcs11/v2 => ../go-kms-wrapping/wrappers/pkcs11
+
 require (
 	cloud.google.com/go/monitoring v1.17.0
 	github.com/ProtonMail/go-crypto v0.0.0-20230626094100-7e9e0395ebec
@@ -118,6 +122,7 @@ require (
 	github.com/openbao/go-kms-wrapping/wrappers/azurekeyvault/v2 v2.1.0
 	github.com/openbao/go-kms-wrapping/wrappers/gcpckms/v2 v2.1.0
 	github.com/openbao/go-kms-wrapping/wrappers/ocikms/v2 v2.1.0
+	github.com/openbao/go-kms-wrapping/wrappers/pkcs11/v2 v2.1.0
 	github.com/openbao/go-kms-wrapping/wrappers/transit/v2 v2.1.0
 	github.com/openbao/openbao-template v1.0.0
 	github.com/openbao/openbao/api/auth/approle/v2 v2.0.0
@@ -292,6 +297,7 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/miekg/dns v1.1.43 // indirect
+	github.com/miekg/pkcs11 v1.1.2-0.20231115102856-9078ad6b9d4b // indirect
 	github.com/moby/patternmatcher v0.5.0 // indirect
 	github.com/moby/spdystream v0.2.0 // indirect
 	github.com/moby/sys/sequential v0.5.0 // indirect
@@ -320,7 +326,7 @@ require (
 	github.com/prometheus/client_model v0.4.0 // indirect
 	github.com/prometheus/procfs v0.8.0 // indirect
 	github.com/renier/xmlrpc v0.0.0-20170708154548-ce4a1a486c03 // indirect
-	github.com/rogpeppe/go-internal v1.12.0 // indirect
+	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
