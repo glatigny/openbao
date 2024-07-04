@@ -23,6 +23,7 @@ import (
 	"github.com/openbao/go-kms-wrapping/wrappers/azurekeyvault/v2"
 	"github.com/openbao/go-kms-wrapping/wrappers/gcpckms/v2"
 	"github.com/openbao/go-kms-wrapping/wrappers/ocikms/v2"
+	"github.com/openbao/go-kms-wrapping/wrappers/pkcs11/v2"
 	"github.com/openbao/go-kms-wrapping/wrappers/transit/v2"
 	"github.com/openbao/openbao/sdk/logical"
 )
@@ -196,7 +197,8 @@ func configureWrapper(configKMS *KMS, infoKeys *[]string, info *map[string]strin
 		wrapper, kmsInfo, err = GetTransitKMSFunc(configKMS, opts...)
 
 	case wrapping.WrapperTypePkcs11:
-		return nil, fmt.Errorf("KMS type 'pkcs11' is not supported by OpenBao")
+		wrapper, kmsInfo, err = GetPkcs11KMSFunc(configKMS, opts...)
+		// return nil, fmt.Errorf("KMS type 'pkcs11' is not supported by OpenBao")
 
 	default:
 		return nil, fmt.Errorf("Unknown KMS type %q", configKMS.Type)
@@ -322,6 +324,25 @@ func GetOCIKMSKMSFunc(kms *KMS, opts ...wrapping.Option) (wrapping.Wrapper, map[
 		info["OCI KMS Crypto Endpoint"] = wrapperInfo.Metadata[ocikms.KmsConfigCryptoEndpoint]
 		info["OCI KMS Management Endpoint"] = wrapperInfo.Metadata[ocikms.KmsConfigManagementEndpoint]
 		info["OCI KMS Principal Type"] = wrapperInfo.Metadata["principal_type"]
+	}
+	return wrapper, info, nil
+}
+
+func GetPkcs11KMSFunc(kms *KMS, opts ...wrapping.Option) (wrapping.Wrapper, map[string]string, error) {
+	wrapper := pkcs11.NewWrapper()
+	wrapperInfo, err := wrapper.SetConfig(context.Background(), append(opts, wrapping.WithConfigMap(kms.Config))...)
+	if err != nil {
+		// If the error is any other than logical.KeyNotFoundError, return the error
+		if !errwrap.ContainsType(err, new(logical.KeyNotFoundError)) {
+			return nil, nil, err
+		}
+	}
+	info := make(map[string]string)
+	if wrapperInfo != nil {
+		info["Pkcs11 KeyID"] = wrapperInfo.Metadata["kms_key_id"]
+		info["Pkcs11 Slot"] = wrapperInfo.Metadata["slot"]
+		info["Pkcs11 Label"] = wrapperInfo.Metadata["label"]
+		info["Pkcs11 Mechanisme"] = wrapperInfo.Metadata["mechanism"]
 	}
 	return wrapper, info, nil
 }

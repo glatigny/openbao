@@ -8,7 +8,9 @@ module github.com/openbao/openbao
 // The general policy for updating it is: when the Go major version used on the branch is
 // updated. If we choose not to do so at some point (e.g. because we don't want some new
 // semantic related to Go module handling), this comment should be updated to explain that.
-go 1.22
+go 1.22.1
+
+toolchain go1.22.4
 
 replace github.com/openbao/openbao/api => ./api
 
@@ -285,6 +287,7 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/miekg/dns v1.1.43 // indirect
+	github.com/miekg/pkcs11 v1.1.2-0.20231115102856-9078ad6b9d4b // indirect
 	github.com/moby/patternmatcher v0.5.0 // indirect
 	github.com/moby/spdystream v0.2.0 // indirect
 	github.com/moby/sys/sequential v0.5.0 // indirect
@@ -295,6 +298,7 @@ require (
 	github.com/nicolai86/scaleway-sdk v1.10.2-0.20180628010248-798f60e20bb2 // indirect
 	github.com/nwaples/rardecode v1.1.2 // indirect
 	github.com/openbao/go-kms-wrapping/entropy/v2 v2.0.1-0.20240122151027-4d142be5e262 // indirect
+	github.com/openbao/go-kms-wrapping/wrappers/pkcs11/v2 v2.0.0-00010101000000-000000000000 // indirect
 	github.com/openbao/openbao/api/auth/kubernetes v0.0.0-20240227182507-a8c90d250c17 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
@@ -353,3 +357,7 @@ require (
 )
 
 retract [v0.1.0, v1.17.0]
+
+replace github.com/openbao/go-kms-wrapping/v2 => ../go-kms-wrapping
+
+replace github.com/openbao/go-kms-wrapping/wrappers/pkcs11/v2 => ../go-kms-wrapping/wrappers/pkcs11
